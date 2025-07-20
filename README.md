@@ -4,7 +4,7 @@
 
 **Desktop application for Google's Gemini AI**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Electron](https://img.shields.io/badge/Electron-28.0.0-47848f.svg)](https://electronjs.org/) [![Node.js](https://img.shields.io/badge/Node.js-20+-green.svg)](https://nodejs.org/) [![GitHub release](https://img.shields.io/github/release/dortanes/gemini-desktop.svg)](https://github.com/dortanes/gemini-desktop/releases) [![Downloads](https://img.shields.io/github/downloads/dortanes/gemini-desktop/total.svg)](https://github.com/dortanes/gemini-desktop/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![GitHub release](https://img.shields.io/github/release/dortanes/gemini-desktop.svg)](https://github.com/dortanes/gemini-desktop/releases) [![Downloads](https://img.shields.io/github/downloads/dortanes/gemini-desktop/total.svg)](https://github.com/dortanes/gemini-desktop/releases)
 
 ---
 
