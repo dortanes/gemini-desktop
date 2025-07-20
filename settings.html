@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Settings - Gemini AI</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=check,check_circle,close,edit,error,info,keyboard,settings,smart_toy" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1b1c1d;
+            color: white;
+            overflow: hidden;
+        }
+
+        .settings-toolbar {
+            height: 41px;
+            background: #282a2c;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            -webkit-app-region: drag;
+            user-select: none;
+            border-bottom: 1px solid #3a3a3a;
+        }
+
+        .toolbar-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toolbar-title .material-symbols-outlined {
+            font-size: 18px;
+        }
+
+        .close-btn {
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: white;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            -webkit-app-region: no-drag;
+        }
+
+        .close-btn:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .close-btn .material-symbols-outlined {
+            font-size: 16px;
+        }
+
+        .settings-content {
+            padding: 30px;
+            height: calc(100vh - 41px);
+            overflow-y: auto;
+        }
+
+        .settings-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title .material-symbols-outlined {
+            font-size: 20px;
+            color: #4285f4;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #3a3a3a;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-label {
+            flex: 1;
+        }
+
+        .setting-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .setting-description {
+            font-size: 12px;
+            color: #9aa0a6;
+        }
+
+        .hotkey-input {
+            background: #2d2e30;
+            border: 1px solid #5f6368;
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: white;
+            font-size: 13px;
+            min-width: 150px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .hotkey-input:hover {
+            border-color: #4285f4;
+        }
+
+        .hotkey-input:focus {
+            outline: none;
+            border-color: #4285f4;
+            box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+        }
+
+        .hotkey-input.recording {
+            border-color: #ea4335;
+            background: rgba(234, 67, 53, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .save-btn, .reset-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .save-btn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: #45a049;
+            transform: translateY(-1px);
+        }
+
+        .reset-btn {
+            background: #f44336;
+            color: white;
+        }
+
+        .reset-btn:hover {
+            background: #da190b;
+            transform: translateY(-1px);
+        }
+
+        /* Popup notifications */
+        .notification {
+            position: fixed;
+            top: 55px;
+            right: 20px;
+            padding: 16px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            max-width: 300px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #f44336, #da190b);
+        }
+
+        .notification.info {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+        }
+
+        .notification .material-symbols-outlined {
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="settings-toolbar">
+        <div class="toolbar-title">
+            <span class="material-symbols-outlined">settings</span>
+            Settings
+        </div>
+        <button class="close-btn" id="close-btn" title="Close">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+
+    <div class="settings-content">
+        <div class="settings-section">
+            <div class="section-title">
+                <span class="material-symbols-outlined">keyboard</span>
+                Hotkeys
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-label">
+                    <div class="setting-title">Toggle Mini Mode</div>
+                    <div class="setting-description">Show/hide Gemini AI mini window</div>
+                </div>
+                <input type="text" class="hotkey-input" id="toggle-mini-hotkey" placeholder="Click to record" readonly>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-label">
+                    <div class="setting-title">Show Main Window</div>
+                    <div class="setting-description">Open main application window</div>
+                </div>
+                <input type="text" class="hotkey-input" id="show-main-hotkey" placeholder="Click to record" readonly>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-label">
+                    <div class="setting-title">Reload Gemini</div>
+                    <div class="setting-description">Refresh Gemini AI content</div>
+                </div>
+                <input type="text" class="hotkey-input" id="reload-gemini-hotkey" placeholder="Click to record" readonly>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn btn-secondary reset-btn" id="reset-btn">Reset</button>
+            <button class="btn btn-primary save-btn" id="save-btn">Save</button>
+        </div>
+    </div>
+
+    <script type="module" src="settings-renderer.js"></script>
+</body>
+
+</html>

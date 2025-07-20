@@ -1,0 +1,98 @@
+name: Build and Release
+
+on:
+  release:
+    types: [prereleased]
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Release tag (ex. v1.0.1)'
+        required: true
+        type: string
+      prerelease:
+        description: 'Is this a pre-release?'
+        required: false
+        default: true
+        type: boolean
+      release_notes:
+        description: 'Release notes (optional)'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  build-and-upload:
+    runs-on: windows-latest
+    if: github.event.release.prerelease == true || github.event_name == 'workflow_dispatch'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+          
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+        
+      - name: Build application
+        run: yarn build-win
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Verify build output
+        run: |
+          if (Test-Path "dist") {
+            Write-Host "✅ Build successful! Files created:"
+            Get-ChildItem -Path "dist" -Filter "*.exe" | ForEach-Object { Write-Host "  📦 $($_.Name)" }
+            Get-ChildItem -Path "dist" -Filter "*.msi" | ForEach-Object { Write-Host "  📦 $($_.Name)" }
+          } else {
+            Write-Error "❌ Build failed! Directory 'dist' not found!"
+            exit 1
+          }
+        shell: pwsh
+        
+      - name: Create Release (if manual trigger)
+        if: github.event_name == 'workflow_dispatch'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag_name }}
+          name: ${{ github.event.inputs.tag_name }}
+          body: |
+            ### 📥 Installation Instructions
+            
+            **Windows:**
+            - Download `Gemini AI Setup.exe` and run the installer
+            
+            **macOS:** Coming soon
+            **Linux:** Coming soon
+          prerelease: ${{ github.event.inputs.prerelease }}
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+      - name: Upload to Pre-release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*.exe
+            dist/*.msi
+          tag_name: ${{ github.event.release.tag_name || github.event.inputs.tag_name }}
+          body: |
+            ### 📥 Installation Instructions
+            
+            **Windows:**
+            - Download `Gemini AI Setup.exe` and run the installer
+            
+            **macOS:** Coming soon
+            **Linux:** Coming soon
+          prerelease: ${{ github.event.release.prerelease || github.event.inputs.prerelease || true }}
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

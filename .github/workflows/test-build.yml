@@ -1,0 +1,59 @@
+name: Test Build
+
+on:
+  pull_request:
+    branches: [ main, master ]
+  push:
+    branches: [ main, master ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.github/**'
+  workflow_dispatch:
+
+jobs:
+  test-build:
+    runs-on: windows-latest
+        
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+          
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+        
+      - name: Test build
+        run: yarn build-win
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify build artifacts
+        run: |
+          if (Test-Path "dist") {
+            Write-Host "✅ Test build succeed!"
+            Write-Host "📦 Created files:"
+            Get-ChildItem -Path "dist" -Filter "*.exe" | ForEach-Object { 
+              Write-Host "  🔹 $($_.Name) ($([math]::Round($_.Length/1MB, 2)) MB)"
+            }
+            Get-ChildItem -Path "dist" -Filter "*.msi" | ForEach-Object { 
+              Write-Host "  🔹 $($_.Name) ($([math]::Round($_.Length/1MB, 2)) MB)"
+            }
+
+            $exeFiles = Get-ChildItem -Path "dist" -Filter "*.exe"
+            if ($exeFiles.Count -eq 0) {
+              Write-Error "❌ .exe file is not found!"
+              exit 1
+            }
+            
+            Write-Host "✅ All checks succeed!"
+          } else {
+            Write-Error "❌ dist folder is not found! Build failed!"
+            exit 1
+          }
+        shell: pwsh
