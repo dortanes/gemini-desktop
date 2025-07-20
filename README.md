@@ -28,6 +28,7 @@
 - **🔄 Dual Window Modes** - Switch between full window and drawer
 - **⌨️ Global Hotkeys** - Customizable keyboard shortcuts for instant access
 - **🎨 System Tray Integration** - Quick access from your system tray
+- **🎤 Voice Mode** - Hands-free voice interaction with automatic speech-to-text and text-to-speech
 
 ## 📥 Installation
 
@@ -63,6 +64,7 @@ These platforms are currently under development. You can still run the app from 
 2. **Set Up Hotkeys** (Optional)
    - Open Settings from the tray menu
    - Configure global hotkeys for drawer and main window
+   - Customize voice mode hotkey (default: `Ctrl+Shift+V`)
    - Save your preferences
 
 3. **Start Using Gemini AI**
@@ -70,6 +72,27 @@ These platforms are currently under development. You can still run the app from 
    - Use drawer for quick queries
    - Switch to full mode for extended conversations
    - You can also open it in full screen mode (click F11)
+
+4. **Voice Mode** 🎤
+   - Press your voice mode hotkey (default: `Ctrl+Shift+V`) to activate hands-free mode
+   - Speak your question - the app will automatically detect when you're done
+   - Your speech will be converted to text and sent to Gemini
+   - The response will be read aloud using text-to-speech
+   - Perfect for hands-free interaction while working on other tasks
+
+## 🎤 Voice Mode
+
+The Voice Mode feature provides a completely hands-free way to interact with Gemini AI using speech-to-text and text-to-speech capabilities.
+
+> **FYI**: This feature uses Gemini's original built-in speech-to-text (STT) and text-to-speech (TTS) functionality - no additional services or APIs required!
+
+### How It Works
+
+1. **Activation**: Press the voice mode hotkey (default: `Ctrl+Shift+V`)
+2. **Voice Recording**: The app automatically starts recording your voice
+3. **Smart Detection**: Automatically detects when you've finished speaking (2-second pause)
+4. **Auto-Send**: Converts your speech to text and sends it to Gemini
+5. **Audio Response**: Gemini's response is automatically read aloud using text-to-speech
 
 ## 🛠️ Development
 
