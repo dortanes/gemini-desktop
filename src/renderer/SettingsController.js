@@ -37,7 +37,8 @@ class SettingsController {
       statusMessage: document.getElementById('status-message'),
       toggleMiniInput: document.getElementById('toggle-mini-hotkey'),
       showMainInput: document.getElementById('show-main-hotkey'),
-      reloadGeminiInput: document.getElementById('reload-gemini-hotkey')
+      reloadGeminiInput: document.getElementById('reload-gemini-hotkey'),
+      voiceModeInput: document.getElementById('voice-mode-hotkey')
     };
   }
 
@@ -49,6 +50,7 @@ class SettingsController {
     this.setupHotkeyRecording(this.elements.toggleMiniInput, 'toggle-mini');
     this.setupHotkeyRecording(this.elements.showMainInput, 'show-main');
     this.setupHotkeyRecording(this.elements.reloadGeminiInput, 'reload-gemini');
+    this.setupHotkeyRecording(this.elements.voiceModeInput, 'voice-mode');
 
     document.addEventListener('keydown', (e) => this.handleGlobalKeydown(e));
   }
@@ -61,7 +63,8 @@ class SettingsController {
     const settings = {
       toggleMiniHotkey: this.elements.toggleMiniInput.value,
       showMainHotkey: this.elements.showMainInput.value,
-      reloadGeminiHotkey: this.elements.reloadGeminiInput.value
+      reloadGeminiHotkey: this.elements.reloadGeminiInput.value,
+      voiceModeHotkey: this.elements.voiceModeInput.value
     };
 
     try {
@@ -98,6 +101,7 @@ class SettingsController {
       this.elements.toggleMiniInput.value = settings.toggleMiniHotkey || '';
       this.elements.showMainInput.value = settings.showMainHotkey || '';
       this.elements.reloadGeminiInput.value = settings.reloadGeminiHotkey || '';
+      this.elements.voiceModeInput.value = settings.voiceModeHotkey || '';
     } catch (error) {
       console.error('Error loading settings:', error);
     }

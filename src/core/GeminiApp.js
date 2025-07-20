@@ -18,10 +18,10 @@ class GeminiApp {
   }
 
   initializeManagers() {
-    this.settingsManager = new SettingsManager();
+    this.animationHandler = new AnimationHandler();
+    this.settingsManager = new SettingsManager(this.animationHandler);
     this.trayManager = new TrayManager();
     this.settingsButtonHandler = new SettingsButtonHandler();
-    this.animationHandler = new AnimationHandler();
     this.webContentsViewHandler = new WebContentsViewHandler();
     this.windowManager = new WindowManager();
     this.ipcHandler = new IPCHandler();
@@ -60,6 +60,7 @@ class GeminiApp {
     this.setupDependencies();
     this.setupIPC();
     
+    await this.windowManager.createMiniWindow();
     await this.windowManager.createMainWindow();
     
     this.isInitialized = true;
@@ -72,8 +73,11 @@ class GeminiApp {
     this.windowManager.setAnimationHandler(this.animationHandler);
     this.windowManager.setSettingsButtonHandler(this.settingsButtonHandler);
     
+    this.settingsManager.setWebContentsViewHandler(this.webContentsViewHandler);
+    
     this.animationHandler.setDisplayManager(DisplayManager);
     this.animationHandler.setTrayManager(this.trayManager);
+    this.animationHandler.setSettingsManager(this.settingsManager);
     this.animationHandler.setCallbacks({
       updateMiniBrowserViewBounds: () => this.webContentsViewHandler.updateMiniBrowserViewBounds(),
       attachGeminiToMiniWindow: async () => {

@@ -114,6 +114,10 @@ class MiniWindow extends BaseWindow {
     if (this.webContentsViewHandler) {
       this.webContentsViewHandler.setMiniWindow(this.window);
     }
+
+    if (this.settingsManager) {
+      this.settingsManager.setMiniWindow(this.window);
+    }
   }
 
   setupEventHandlers() {

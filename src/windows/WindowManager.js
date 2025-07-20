@@ -54,6 +54,7 @@ class WindowManager {
     if (!this.miniWindow) {
       this.miniWindow = new MiniWindow();
       this.miniWindow.setTrayManager(this.trayManager);
+      this.miniWindow.setSettingsManager(this.settingsManager);
       this.miniWindow.setWebContentsViewHandler(this.webContentsViewHandler);
       this.miniWindow.setAnimationHandler(this.animationHandler);
       this.miniWindow.setShowMainWindowCallback(async () => {

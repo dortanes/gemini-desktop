@@ -6,6 +6,7 @@ class AnimationHandler {
     this.currentAttachedWindow = null;
     this.trayManager = null;
     this.displayManager = null;
+    this.settingsManager = null;
     
     // Animation configuration
     this.config = {
@@ -41,10 +42,18 @@ class AnimationHandler {
     this.displayManager = displayManager;
   }
 
+  setSettingsManager(settingsManager) {
+    this.settingsManager = settingsManager;
+  }
+
   setCallbacks(callbacks) {
     this.updateMiniBrowserViewBoundsCallback = callbacks.updateMiniBrowserViewBounds;
     this.attachGeminiToMiniWindowCallback = callbacks.attachGeminiToMiniWindow;
     this.updateTrayMenuCallback = callbacks.updateTrayMenu;
+  }
+
+  getIsMiniWindowVisible() {
+    return this.miniWindow ? this.miniWindow.isVisible() : false;
   }
 
   getIsMiniWindowAnimating() {
@@ -168,6 +177,9 @@ class AnimationHandler {
 
     console.log('Starting drawer panel animation, isMiniWindowAnimating:', this.isMiniWindowAnimating);
     
+    // Focus mini window
+    this.miniWindow.focus();
+
     this.setIsMiniWindowAnimating(true);
     const drawerWidth = 400;
     
@@ -251,6 +263,12 @@ class AnimationHandler {
     if (!this.miniWindow || !this.miniWindow.isVisible() || this.isMiniWindowAnimating) {
       if (callback) callback();
       return;
+    }
+
+    // Stop voice mode if it's active when drawer is being hidden
+    if (this.settingsManager && this.settingsManager.voiceModeActive) {
+      console.log('Drawer closing, stopping voice mode');
+      this.settingsManager.stopVoiceMode();
     }
 
     this.setIsMiniWindowAnimating(true);
