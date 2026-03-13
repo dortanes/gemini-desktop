@@ -1,3 +1,9 @@
+> [!CAUTION]
+> **This project has been archived and is no longer maintained.**
+> It has evolved into [**Atlas**](https://github.com/dortanes/atlas) — a full-featured AI desktop agent with screen vision, computer control, personas, memory, and much more.
+> 
+> 👉 **[Go to Atlas →](https://github.com/dortanes/atlas)**
+
 <div align="center">
 
 # 🤖 Gemini AI Desktop
